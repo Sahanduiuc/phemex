@@ -18,7 +18,7 @@ setuptools.setup(
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/x-rst',
     license='MIT',
-    author='Kyle Downey',
+    author='Kyle F. Downey',
     author_email='kyle.downey@gmail.com',
     url='https://github.com/cloudwall/phemex',
     packages=setuptools.find_packages(),
