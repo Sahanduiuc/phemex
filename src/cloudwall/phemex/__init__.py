@@ -3,6 +3,7 @@ import base64
 import hashlib
 import hmac
 import time
+import urllib
 from decimal import Decimal
 from math import trunc
 from typing import Optional, Dict
@@ -13,7 +14,7 @@ from requests.auth import AuthBase
 
 class PhemexCredentials(AuthBase):
     """
-    Base class for
+    Base class for public or private credentials.
     """
     @abc.abstractmethod
     def __call__(self, request: PreparedRequest):
@@ -22,13 +23,16 @@ class PhemexCredentials(AuthBase):
 
 class PublicCredentials(PhemexCredentials):
     """
-    Public credentials are a no-op for request signing
+    Public credentials are a no-op for request signing.
     """
     def __call__(self, request: PreparedRequest):
         return request
 
 
 class AuthCredentials(PhemexCredentials):
+    """
+    Credentials for private API access.
+    """
     def __init__(self, api_key, secret_key):
         self.api_key = api_key
         self.secret_key = secret_key
@@ -38,7 +42,7 @@ class AuthCredentials(PhemexCredentials):
         url_parts = request.path_url.split('?')
         message = (url_parts[0] + url_parts[1] + expiry + (request.body or ''))
         message = message.encode('ascii')
-        hmac_key = base64.b64decode(self.secret_key)
+        hmac_key = base64.urlsafe_b64decode(self.secret_key)
         signature = hmac.new(hmac_key, message, hashlib.sha256)
         signature_b64 = base64.b64encode(signature.digest())
         request.headers.update({
@@ -51,6 +55,9 @@ class AuthCredentials(PhemexCredentials):
 
 
 class PhemexConnection:
+    """
+    Primary client entry point for Phemex API connection
+    """
     def __init__(self, credentials: PhemexCredentials = PublicCredentials(), api_url='https://api.phemex.com',
                  request_timeout: int = 30):
         self.credentials = credentials
