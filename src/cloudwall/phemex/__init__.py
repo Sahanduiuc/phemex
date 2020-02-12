@@ -4,13 +4,13 @@ import hashlib
 import hmac
 import time
 from decimal import Decimal
+from math import trunc
 from typing import Optional, Dict
 
 from requests import PreparedRequest, Session
 from requests.auth import AuthBase
 
 
-@abc.ABC
 class PhemexCredentials(AuthBase):
     """
     Base class for
@@ -25,13 +25,18 @@ class PublicCredentials(PhemexCredentials):
     Public credentials are a no-op for request signing
     """
     def __call__(self, request: PreparedRequest):
-        pass
+        return request
 
 
 class AuthCredentials(PhemexCredentials):
+    def __init__(self, api_key, secret_key):
+        self.api_key = api_key
+        self.secret_key = secret_key
+
     def __call__(self, request: PreparedRequest):
-        expiry = str(time.time() + 60)
-        message = (request.path_url + expiry + (request.body or ''))
+        expiry = str(trunc(time.time()) + 60)
+        url_parts = request.path_url.split('?')
+        message = (url_parts[0] + url_parts[1] + expiry + (request.body or ''))
         message = message.encode('ascii')
         hmac_key = base64.b64decode(self.secret_key)
         signature = hmac.new(hmac_key, message, hashlib.sha256)
@@ -42,10 +47,11 @@ class AuthCredentials(PhemexCredentials):
             'x-phemex-access-token': self.api_key,
             'Content-Type': 'application/json'
         })
+        return request
 
 
 class PhemexConnection:
-    def __init__(self, credentials: PhemexCredentials, api_url='https://api.phemex.com',
+    def __init__(self, credentials: PhemexCredentials = PublicCredentials(), api_url='https://api.phemex.com',
                  request_timeout: int = 30):
         self.credentials = credentials
         self.api_url = api_url.rstrip('/')

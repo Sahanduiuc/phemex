@@ -13,7 +13,7 @@ requires = [
 
 setuptools.setup(
     name='phemex',
-    version='0.0.2',
+    version='0.0.3',
     description='A Python interface for the Phemex API.',
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/x-rst',
