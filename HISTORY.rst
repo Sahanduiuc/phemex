@@ -3,10 +3,10 @@
 Release History
 ---------------
 
-0.0.4 (2020-02-12)
+0.0.4 (2020-02-18)
 +++++++++++++++++++
 
-- More bug fixes for authentication
+- Authenticated connections now working
 - Improved documentation
 
 0.0.3 (2020-02-11)
