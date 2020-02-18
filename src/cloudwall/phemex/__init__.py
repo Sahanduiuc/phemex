@@ -3,13 +3,12 @@ import base64
 import hashlib
 import hmac
 import time
-import urllib
+
 from decimal import Decimal
 from math import trunc
-from typing import Optional, Dict
-
 from requests import PreparedRequest, Session
 from requests.auth import AuthBase
+from typing import Optional, Dict
 
 
 class PhemexCredentials(AuthBase):
@@ -39,12 +38,16 @@ class AuthCredentials(PhemexCredentials):
 
     def __call__(self, request: PreparedRequest):
         expiry = str(trunc(time.time()) + 60)
-        url_parts = request.path_url.split('?')
-        message = (url_parts[0] + url_parts[1] + expiry + (request.body or ''))
-        message = message.encode('ascii')
+
+        if '?' not in request.path_url:
+            (url, query_string) = request.path_url, ''
+        else:
+            (url, query_string) = request.path_url.split('?')
+        message = (url + query_string + expiry + (request.body or ''))
+        message = message.encode('utf-8')
         hmac_key = base64.urlsafe_b64decode(self.secret_key)
         signature = hmac.new(hmac_key, message, hashlib.sha256)
-        signature_b64 = base64.b64encode(signature.digest())
+        signature_b64 = signature.hexdigest()
         request.headers.update({
             'x-phemex-request-signature': signature_b64,
             'x-phemex-request-expiry': expiry,
