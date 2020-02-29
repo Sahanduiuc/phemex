@@ -13,3 +13,28 @@ Phemex: A Python API
 Features
 --------
 - Initial, limited support of Phemex REST API
+    - Public API:
+
+    .. code-block:: python
+
+        >>> from cloudwall.phemex import PhemexConnection
+        >>> conn = PhemexConnection()
+        >>> products = conn.get_products()
+
+    - Authenticated connections:
+
+    .. code-block:: python
+
+        >>> from cloudwall.phemex import PhemexConnection, AuthCredentials
+        >>> credentials = AuthCredentials(api_key, secret_key)
+        >>> conn = PhemexConnection()
+        >>> products = conn.get_products()
+
+
+
+Installation
+------------
+
+.. code-block:: bash
+
+    $ pip install phemex
