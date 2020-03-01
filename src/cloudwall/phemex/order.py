@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import List
 
 
 class Side(Enum):
@@ -134,10 +133,11 @@ class MarketOrder(Order):
         super().__init__(qty, contract, side)
 
 
-class OrderHandle:
+class OrderHandle(ABC):
     """
     An opaque reference to an order that has been placed on the exchange.
     """
+    @abstractmethod
     def cancel(self):
         """
         Cancels the referenced order.

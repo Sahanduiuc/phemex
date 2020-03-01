@@ -30,6 +30,33 @@ Features
         >>> conn = PhemexConnection()
         >>> products = conn.get_products()
 
+    - Placing orders:
+
+    .. code-block:: python
+
+        conn = PhemexConnection(credentials)
+
+        # set up order helper classes
+        order_placer = conn.get_order_placer()
+        order_factory = order_placer.get_order_factory()
+
+        # create a limit order
+        limit = order_factory.create_limit_order(Side.SELL, 1, 8800.0, Contract('BTCUSD'))
+
+        # create a market order for BTCUSD, "cross" (no leverage), buy / long
+        order = order_factory.create_market_order(Side.BUY, 1, Contract('BTCUSD'))
+
+        # build up a conditional that places the given market order
+        # when last trade price touches 8800
+        conditional = ConditionalOrder(Trigger.LAST_PRICE, 8800.0, order)
+
+        # place the orders
+        limit_hnd = order_placer.submit(limit)
+        cond_hnd = order_placer.submit(conditional)
+
+        # cancel them
+        limit_hnd.cancel()
+        cond_hnd.cancel()
 
 
 Installation

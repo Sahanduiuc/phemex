@@ -146,7 +146,8 @@ class PhemexError(Exception):
 
 
 class PhemexOrderHandle(OrderHandle):
-    def __init__(self, response):
+    def __init__(self, order_placer: OrderPlacer, response):
+        self.order_placer = order_placer
         self.symbol = response['data']['symbol']
         self.order_id = response['data']['orderID']
 
@@ -155,6 +156,9 @@ class PhemexOrderHandle(OrderHandle):
 
     def get_order_id(self) -> str:
         return self.order_id
+
+    def cancel(self):
+        self.order_placer.cancel(self)
 
 
 class PhemexOrderPlacer(OrderPlacer):
@@ -210,7 +214,7 @@ class PhemexOrderPlacer(OrderPlacer):
             else:
                 raise PhemexError(error_code)
 
-        return PhemexOrderHandle(response)
+        return PhemexOrderHandle(self, response)
 
     def cancel(self, handle: OrderHandle):
         if not isinstance(handle, PhemexOrderHandle):

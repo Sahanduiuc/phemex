@@ -8,12 +8,13 @@ with open('HISTORY.rst', 'r') as f:
 
 
 requires = [
-    'requests>=2.20.0'
+    'requests>=2.20.0',
+    'token-bucket>=0.2.0'
 ]
 
 setuptools.setup(
     name='phemex',
-    version='0.0.5',
+    version='0.0.6',
     description='A Python interface for the Phemex API.',
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/x-rst',

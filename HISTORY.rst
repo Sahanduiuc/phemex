@@ -3,7 +3,12 @@
 Release History
 ---------------
 
-0.0.5 (2020-02-26)
+0.0.6 (2020-03-01
+++++++++++++++++++
+
+- Improved documentation
+
+0.0.5 (2020-03-01)
 +++++++++++++++++++
 
 - Start of Pythonic API's for public & private endpoints
