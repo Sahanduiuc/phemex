@@ -7,6 +7,7 @@ Release History
 +++++++++++++++++++
 
 - Start of Pythonic API's for public & private endpoints
+- Added Order object model
 - Improved documentation
 
 
