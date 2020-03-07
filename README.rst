@@ -41,14 +41,14 @@ Features
         order_factory = order_placer.get_order_factory()
 
         # create a limit order
-        limit = order_factory.create_limit_order(Side.SELL, 1, 8800.0, Contract('BTCUSD'))
+        limit = order_factory.create_limit_order(Side.SELL, 1, 10000.0, Contract('BTCUSD'))
 
-        # create a market order for BTCUSD, "cross" (no leverage), buy / long
-        order = order_factory.create_market_order(Side.BUY, 1, Contract('BTCUSD'))
+        # create a market order for BTCUSD, "cross" (no leverage), sell / short
+        order = order_factory.create_market_order(Side.SELL, 1, Contract('BTCUSD'))
 
-        # build up a conditional that places the given market order
+        # build up a conditional that places the given market short sell order
         # when last trade price touches 8800
-        conditional = ConditionalOrder(Trigger.LAST_PRICE, 8800.0, order)
+        conditional = ConditionalOrder(Condition.IF_TOUCHED, Trigger.LAST_PRICE, 10000.0, order)
 
         # place the orders
         limit_hnd = order_placer.submit(limit)
