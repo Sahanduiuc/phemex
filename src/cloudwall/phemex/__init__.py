@@ -15,7 +15,7 @@ from requests import PreparedRequest, Session
 from requests.auth import AuthBase
 
 from cloudwall.phemex.order import OrderPlacer, OrderPlaceable, OrderHandle, OrderFactory, LimitOrder, MarketOrder, \
-    ConditionalOrder, Trigger, Order, TimeInForce
+    ConditionalOrder, Trigger, Order, TimeInForce, Condition
 
 
 class PhemexCredentials(AuthBase):
@@ -191,12 +191,18 @@ class PhemexOrderPlacer(OrderPlacer):
             params['orderQty'] = cond_order.get_qty()
             params['side'] = cond_order.get_side().name.lower().capitalize()
             if isinstance(cond_order, LimitOrder):
-                params['ordType'] = 'StopLimit'
+                if op.get_condition() == Condition.STOP:
+                    params['ordType'] = 'StopLimit'
+                else:
+                    params['ordType'] = 'LimitIfTouched'
                 params['priceEp'] = PhemexOrderPlacer.__get_scaled_price(cond_order.get_price())
                 params['timeInForce'] = PhemexOrderPlacer.__get_tif_code(cond_order.get_time_in_force())
                 params['reduceOnly'] = cond_order.is_reduce_only()
             else:
-                params['ordType'] = 'Stop'
+                if op.get_condition() == Condition.STOP:
+                    params['ordType'] = 'Stop'
+                else:
+                    params['ordType'] = 'MarketIfTouched'
 
             params['triggerType'] = PhemexOrderPlacer.__get_trigger_type_code(op.get_trigger())
             params['stopPxEp'] = PhemexOrderPlacer.__get_scaled_price(op.get_trigger_price())

@@ -20,6 +20,14 @@ class TimeInForce(Enum):
     FOK = auto()
 
 
+class Condition(Enum):
+    """
+    Enumeration of supported conditions for ConditionalOrder.
+    """
+    IF_TOUCHED = auto()
+    STOP = auto()
+
+
 class Trigger(Enum):
     """
     Enumeration of supported trigger price types.
@@ -80,11 +88,16 @@ class ConditionalOrder(OrderPlaceable):
     """
     An order that fires when a particular price condition is met.
     """
-    def __init__(self, trigger: Trigger, trigger_price: float, order: Order, close_on_trigger: bool = False):
+    def __init__(self, condition: Condition, trigger: Trigger, trigger_price: float,
+                 order: Order, close_on_trigger: bool = False):
+        self.condition = condition
         self.trigger = trigger
         self.trigger_price = trigger_price
         self.order = order
         self.close_on_trigger = close_on_trigger
+
+    def get_condition(self) -> Condition:
+        return self.condition
 
     def get_trigger(self) -> Trigger:
         return self.trigger

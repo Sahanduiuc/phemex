@@ -3,6 +3,13 @@
 Release History
 ---------------
 
+0.0.7 (2020-03-07
+++++++++++++++++++
+
+- Added explicit Condition to ConditionalOrder: STOP or IF_TOUCHED
+- Fixed ordType derivation logic to incorporate Condition
+- Eliminated declared support for pre-3.7 Python versions
+
 0.0.6 (2020-03-01
 ++++++++++++++++++
 
@@ -14,7 +21,6 @@ Release History
 - Start of Pythonic API's for public & private endpoints
 - Added Order object model
 - Improved documentation
-
 
 0.0.4 (2020-02-18)
 +++++++++++++++++++
