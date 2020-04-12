@@ -3,6 +3,12 @@
 Release History
 ---------------
 
+0.1.0 (2020-04-12)
+++++++++++++++++++
+
+- Critical fixes to setup.py
+- Switched to require Python 3.8+
+
 0.0.8 (2020-03-07)
 ++++++++++++++++++
 
