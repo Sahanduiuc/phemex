@@ -3,6 +3,13 @@
 Release History
 ---------------
 
+0.2.0 (2020-04-12)
+++++++++++++++++++
+
+- Moved phemex to top level
+- Updated README to match latest API
+- Added conditional order example
+
 0.1.0 (2020-04-12)
 ++++++++++++++++++
 

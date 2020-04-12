@@ -8,13 +8,13 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 from math import trunc
-from typing import Optional, Dict, List
+from typing import Optional, Dict
 
 import token_bucket
 from requests import PreparedRequest, Session
 from requests.auth import AuthBase
 
-from cloudwall.phemex.order import OrderPlacer, OrderPlaceable, OrderHandle, OrderFactory, LimitOrder, MarketOrder, \
+from phemex.order import OrderPlacer, OrderPlaceable, OrderHandle, OrderFactory, LimitOrder, MarketOrder, \
     ConditionalOrder, Trigger, Order, TimeInForce, Condition
 
 

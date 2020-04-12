@@ -17,7 +17,7 @@ Features
 
     .. code-block:: python
 
-        >>> from cloudwall.phemex import PhemexConnection
+        >>> from phemex import PhemexConnection
         >>> conn = PhemexConnection()
         >>> products = conn.get_products()
 
@@ -25,7 +25,7 @@ Features
 
     .. code-block:: python
 
-        >>> from cloudwall.phemex import PhemexConnection, AuthCredentials
+        >>> from phemex import PhemexConnection, AuthCredentials
         >>> credentials = AuthCredentials(api_key, secret_key)
         >>> conn = PhemexConnection()
         >>> products = conn.get_products()
