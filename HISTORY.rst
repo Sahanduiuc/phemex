@@ -3,6 +3,11 @@
 Release History
 ---------------
 
+0.3.0 (2020-04-13)
+++++++++++++++++++
+
+- Switched back to Python 3.7 due to BeakerX incompatibility
+
 0.2.0 (2020-04-12)
 ++++++++++++++++++
 

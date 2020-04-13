@@ -29,7 +29,7 @@ setuptools.setup(
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     include_package_data=True,
-    python_requires='>=3.8.x',
+    python_requires='>=3.7.x',
     install_requires=requires,
     classifiers=(
         'Development Status :: 4 - Beta',
@@ -38,6 +38,6 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.8'
+        'Programming Language :: Python :: 3.7'
     ),
 )
